@@ -1,4 +1,5 @@
 exports.createProduct = (req, res, next) => {
+    console.log('request: ', req.body)
     res.json({
         message: "create product success",
         data: {

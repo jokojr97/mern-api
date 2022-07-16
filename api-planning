@@ -1,0 +1,230 @@
+Standart API
+
+{root.api}/{version}/{grouping}/{endpoint}
+SAMPLE:
+htpps://jokoriyadi.com/v1/auth/log
+
+=============================================================================================================
+
+Standart Status Response
+
+200 - OK                      --> Call API Success
+201 - CREATED                 --> Post Success
+400 - BAD REQUEST             --> Error in Client Side (input salah, dll)
+401 - UNAUTHORIZED            --> User not Authorizerd to the requeset
+403 - FORBIDDEN               --> User not Allowed to Access
+404 - NOT FOUND               --> Request Endpoint Not Found
+500 - INTERNAL SERVER ERROR   --> Error on Server Side
+502 - BAD GATEWAY             --> Invalid Response From Another Request
+
+=============================================================================================================
+
+GROUP: Authentication
+[1] Register
+    Link    : {root.api}/{version}/auth/register
+    Method  : POST
+
+    Req : 
+    {
+        "name" : "Testing",
+        "email" : "testing@gmail.com",
+        "password" : "password"
+    }
+
+    Res :
+    {
+        "message" : "Register Success",
+        "data" : {
+            "id" : 1,
+            "name" : "Testing",
+            "email" : "testing@gmail.com",
+            "password" : "password"
+        }
+    }
+
+    err-response:
+    400 -> input yang anda masukkan tidak valid,
+    404 -> halaman yang anda tuju tidak ditemukan,
+    500 -> internal server error
+
+=============================================================================================================
+
+[2] Login
+    Link    : {root.api}/{version}/auth/login
+    Method  : POST
+
+    Req : 
+    {
+        "email" : "testing@gmail.com",
+        "password" : "password"
+    }
+
+    Res :
+    {
+        "message" : "Login Success",
+        "data" : {
+            "id" : 1,
+            "name" : "Testing",
+            "email" : "testing@gmail.com",
+            "password" : "password"
+        }
+    }
+
+    err-response:
+    400 -> input yang anda masukkan tidak valid,
+    404 -> halaman yang anda tuju tidak ditemukan,
+    500 -> internal server error
+
+=============================================================================================================
+
+GROUP: Main-App
+[1] Create Blog Post
+    Link    : {root.api}/{version}/main/create
+    Method  : POST
+
+    Req : 
+    {
+        "title" : "Title Post Blog"
+        "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
+        "image" : "file",
+        "date" : 18/4/2022
+    }
+
+    Res :
+    {
+        "message" : "Create Post Success",
+        "data" : {
+            "id" : 1,
+            "title" : "Title Post Blog",
+            "slug" : "title-post-blog",
+            "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
+            "image" : "file",
+            "date" : 18/4/2022
+        }
+    }
+
+    err-response:
+    400 -> input yang anda masukkan tidak valid,
+    404 -> halaman yang anda tuju tidak ditemukan,
+    500 -> internal server error
+
+=============================================================================================================
+
+[2] Get All Blog Post
+    Link    : {root.api}/{version}/main/post
+    Method  : GET
+
+    Res :
+    {
+        "message" : "Get Post Success",
+        "data" : [{
+            "id" : 1,
+            "title" : "Title Post Blog",
+            "slug" : "title-post-blog",
+            "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
+            "image" : "file",
+            "date" : 18/4/2022
+        },{
+            "id" : 2,
+            "title" : "Title Post Blog",
+            "slug" : "title-post-blog",
+            "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
+            "image" : "file",
+            "date" : 18/4/2022
+        },{
+            "id" : 3,
+            "title" : "Title Post Blog",
+            "slug" : "title-post-blog",
+            "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
+            "image" : "file",
+            "date" : 18/4/2022
+        }]
+    }
+
+    err-response:
+    400 -> input yang anda masukkan tidak valid,
+    404 -> halaman yang anda tuju tidak ditemukan,
+    500 -> internal server error
+
+=============================================================================================================
+
+[3] Get Single Blog Post
+    Link    : {root.api}/{version}/main/post/{id}
+    Method  : GET
+
+    Res :
+    {
+        "message" : "Get Post Success",
+        "data" : {
+            "id" : 1,
+            "title" : "Title Post Blog",
+            "slug" : "title-post-blog",
+            "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
+            "image" : "file",
+            "date" : 18/4/2022
+        }
+    }
+
+    err-response:
+    400 -> input yang anda masukkan tidak valid,
+    404 -> halaman yang anda tuju tidak ditemukan,
+    500 -> internal server error
+
+=============================================================================================================
+
+[4] Update Blog Post
+    Link    : {root.api}/{version}/main/update/{id}
+    Method  : PUT/PATCH
+
+    Req : 
+    {
+        "id" : 1,
+        "title" : "Title Post Blog"
+        "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
+        "image" : "file",
+        "date" : 18/4/2022
+    }
+
+    Res :
+    {
+        "message" : "Update Post Success",
+        "data" : {
+            "id" : 1,
+            "title" : "Title Post Blog",
+            "slug" : "title-post-blog",
+            "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
+            "image" : "file",
+            "date" : 18/4/2022
+        }
+    }
+
+    err-response:
+    400 -> input yang anda masukkan tidak valid,
+    404 -> halaman yang anda tuju tidak ditemukan,
+    500 -> internal server error
+
+=============================================================================================================
+
+[5] Delete Blog Post
+    Link    : {root.api}/{version}/main/dekete/{id}
+    Method  : DELETE
+
+    Res :
+    {
+        "message" : "Delete Post Success",
+        "data" : {
+            "id" : 1,
+            "title" : "Title Post Blog",
+            "slug" : "title-post-blog",
+            "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
+            "image" : "file",
+            "date" : 18/4/2022
+        }
+    }
+
+    err-response:
+    400 -> input yang anda masukkan tidak valid,
+    404 -> halaman yang anda tuju tidak ditemukan,
+    500 -> internal server error
+
+=============================================================================================================
