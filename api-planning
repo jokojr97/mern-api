@@ -2,8 +2,9 @@ Standart API
 
 {root.api}/{version}/{grouping}/{endpoint}
 SAMPLE:
-htpps://jokoriyadi.com/v1/auth/log
+htpps://jokoriyadi.com/v1/auth/login
 
+=============================================================================================================
 =============================================================================================================
 
 Standart Status Response
@@ -17,6 +18,7 @@ Standart Status Response
 500 - INTERNAL SERVER ERROR   --> Error on Server Side
 502 - BAD GATEWAY             --> Invalid Response From Another Request
 
+=============================================================================================================
 =============================================================================================================
 
 GROUP: Authentication
@@ -76,15 +78,16 @@ GROUP: Authentication
     500 -> internal server error
 
 =============================================================================================================
+=============================================================================================================
 
 GROUP: Main-App
 [1] Create Blog Post
-    Link    : {root.api}/{version}/main/create
+    Link    : {root.api}/{version}/blog/create
     Method  : POST
 
     Req : 
     {
-        "title" : "Title Post Blog"
+        "title" : "Title Post Blog",
         "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
         "image" : "file",
         "date" : 18/4/2022
@@ -111,7 +114,7 @@ GROUP: Main-App
 =============================================================================================================
 
 [2] Get All Blog Post
-    Link    : {root.api}/{version}/main/post
+    Link    : {root.api}/{version}/blog/post
     Method  : GET
 
     Res :
@@ -149,7 +152,7 @@ GROUP: Main-App
 =============================================================================================================
 
 [3] Get Single Blog Post
-    Link    : {root.api}/{version}/main/post/{id}
+    Link    : {root.api}/{version}/blog/post/{id}
     Method  : GET
 
     Res :
@@ -173,13 +176,13 @@ GROUP: Main-App
 =============================================================================================================
 
 [4] Update Blog Post
-    Link    : {root.api}/{version}/main/update/{id}
+    Link    : {root.api}/{version}/blog/update/{id}
     Method  : PUT/PATCH
 
     Req : 
     {
         "id" : 1,
-        "title" : "Title Post Blog"
+        "title" : "Title Post Blog",
         "description" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem   Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but",
         "image" : "file",
         "date" : 18/4/2022
@@ -206,7 +209,7 @@ GROUP: Main-App
 =============================================================================================================
 
 [5] Delete Blog Post
-    Link    : {root.api}/{version}/main/dekete/{id}
+    Link    : {root.api}/{version}/blog/dekete/{id}
     Method  : DELETE
 
     Res :
