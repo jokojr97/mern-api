@@ -1,12 +1,15 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const routerProducts = require('./src/routes/product')
 const bodyParser = require('body-parser')
+
 
 const app = express();
 const port = 4000;
 const authRoutes = require("./src/routes/auth")
 const blogRoutes = require("./src/routes/blog")
 // const router = express.Router();
+
 
 app.use(bodyParser.json()) // type json
 
@@ -32,6 +35,10 @@ app.use((error, req, res, next) => {
     })
 })
 
-app.listen(port);
+mongoose.connect('mongodb+srv://jokori:5wGYQBT69GnxGZ2f@cluster0.bencw.mongodb.net/?retryWrites=true&w=majority')
+    .then(() => {
+        app.listen(port, () => console.log('connection success'))
+    })
+    .catch(err => console.log(err))
 
-
+// app.listen(port);
