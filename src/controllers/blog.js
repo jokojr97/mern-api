@@ -3,9 +3,6 @@ const { validationResult } = require('express-validator')
 const BlogPost = require('../models/blog');
 
 exports.create = (req, res, next) => {
-    const title = req.body.title;
-    // const image = req.body.image;
-    const description = req.body.description;
     // const dateNow = req.body.date;
     // const date = new Date();
     // const dateNow = date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate();
@@ -19,9 +16,20 @@ exports.create = (req, res, next) => {
         throw err;
     }
 
+    if (!req.file) {
+        const err = new Error("image Harus di isi")
+        err.errorStatus = 422;
+        throw err;
+    }
+
+    const title = req.body.title;
+    const image = req.file.path;
+    const description = req.body.description;
+
     const Posting = new BlogPost({
         title: title,
         description: description,
+        image: image,
         author: { uid: 1, name: "Jokori" }
     });
 
