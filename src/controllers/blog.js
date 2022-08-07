@@ -44,3 +44,32 @@ exports.create = (req, res, next) => {
         });
 
 }
+
+exports.getAll = (req, res, next) => {
+    BlogPost.find().then(result => {
+        res.status(200).json({
+            message: "Data Berhasil ditampilkan!",
+            data: result
+        })
+    }).catch(err => {
+        next(err)
+    });
+}
+
+exports.getById = (req, res, next) => {
+    const postId = req.params.postId;
+    BlogPost.findById(postId).then(result => {
+        if (!result) {
+            const error = new Error("Postingan tidak ditemukan");
+            error.errorStatus = 404;
+            throw error;
+        }
+        res.status(200).json({
+            message: "Data Berhasil ditampilkan!",
+            data: result
+        })
+    }).catch(err => {
+        next(err);
+    });
+
+}

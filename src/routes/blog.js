@@ -8,6 +8,9 @@ const blogController = require('../controllers/blog')
 router.post('/create', [
     body('title').isLength({ min: 5 }).withMessage("Tittle Tidak Sesuai minimal 5 karakter"),
     body('description').isLength({ min: 5 }).withMessage("Description tidak sesuai minimal 5 karakter")],
-    blogController.create)
+    blogController.create);
+
+router.get('/posts', blogController.getAll);
+router.get('/post/:postId', blogController.getById);
 
 module.exports = router;
