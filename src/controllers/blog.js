@@ -73,3 +73,53 @@ exports.getById = (req, res, next) => {
     });
 
 }
+
+
+exports.updateBlogPost = (req, res, next) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const err = new Error("invalid value")
+        err.errorStatus = 400;
+        err.data = errors.array();
+        throw err;
+    }
+
+    if (!req.file) {
+        const err = new Error("image Harus di isi")
+        err.errorStatus = 422;
+        throw err;
+    }
+
+    const title = req.body.title;
+    const image = req.file.path;
+    const description = req.body.description;
+
+    const postId = req.params.postId;
+    BlogPost.findById(postId).then(post => {
+        if (!post) {
+            const error = new Error("Postingan tidak ditemukan");
+            error.errorStatus = 404;
+            throw error;
+        }
+
+
+        post.title = title;
+        post.description = description;
+        post.image = image;
+
+        return post.save();
+
+    }).then(result => {
+        res.status(201).json({
+            message: "Update Blog Post Success",
+            data: result
+        });
+    }).catch(err => {
+        next(err);
+    });
+
+
+
+}
