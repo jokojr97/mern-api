@@ -5,9 +5,6 @@ const fs = require('fs');
 const BlogPost = require('../models/blog');
 
 exports.create = (req, res, next) => {
-    // const dateNow = req.body.date;
-    // const date = new Date();
-    // const dateNow = date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate();
 
     const errors = validationResult(req);
 
@@ -48,14 +45,32 @@ exports.create = (req, res, next) => {
 }
 
 exports.getAll = (req, res, next) => {
-    BlogPost.find().then(result => {
-        res.status(200).json({
-            message: "Data Berhasil ditampilkan!",
-            data: result
+    const currentPage = req.query.page || 1;
+    const perPage = req.query.perPage || 5;
+    let totalItem;
+
+    const currentPageInt = parseInt(currentPage)
+    const perPageInt = parseInt(perPage);
+
+    BlogPost.find().countDocuments()
+        .then(count => {
+            totalItem = count;
+            return BlogPost.find()
+                .skip((currentPageInt - 1) * perPageInt)
+                .limit(perPageInt)
         })
-    }).catch(err => {
-        next(err)
-    });
+        .then(result => {
+            res.status(200).json({
+                message: "Data Berhasil ditampilkan!",
+                data: result,
+                total_data: totalItem,
+                current_page: currentPageInt,
+                per_page: perPageInt
+            })
+        })
+        .catch(err => {
+            next(err);
+        })
 }
 
 exports.getById = (req, res, next) => {
