@@ -101,6 +101,7 @@ exports.login = (req, res, next) => {
         res.status(200).json({
             message: "Login Success!",
             status: "login",
+            _id: result._id,
             data: result
         })
     }).catch(err => {
