@@ -1,6 +1,9 @@
 const { validationResult } = require('express-validator')
 const path = require('path');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 const User = require('../models/user');
 
@@ -42,26 +45,36 @@ const User = require('../models/user');
 //         });
 // }
 
-exports.register = (req, res, next) => {
-
+exports.register = async (req, res, next) => {
+    // inisiasi error validasi
     const errors = validationResult(req);
 
+    // cek error validasi
     if (!errors.isEmpty()) {
         const err = new Error("invalid value")
         err.errorStatus = 400;
         err.data = errors.array();
-        throw err;
+        return res.status(err.errorStatus).json({
+            message: "Invalid Value!",
+            data: err
+        })
+        next()
     }
 
+    // definisi input
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+
+    // hashing password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     const image = "user.jpg"
 
     const insertUser = new User({
         email: email,
         username: username,
-        password: password,
+        password: hashedPassword,
         image: image,
         level: {
             id: 1,
@@ -80,7 +93,7 @@ exports.register = (req, res, next) => {
         });
 }
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
 
     const errors = validationResult(req);
 
@@ -88,22 +101,33 @@ exports.login = (req, res, next) => {
         const err = new Error("invalid value")
         err.errorStatus = 400;
         err.data = errors.array();
-        throw err;
+        return res.status(err.errorStatus).json({
+            message: "Invalid Value!",
+            data: err
+        })
+        next()
     }
 
     const email = req.body.email;
     const password = req.body.password;
+
     const data = {
-        email: email,
-        password: password
+        email: email
     }
-    User.findOne(data).then(result => {
-        res.status(200).json({
-            message: "Login Success!",
-            status: "login",
-            _id: result._id,
-            data: result
-        })
+    User.findOne(data).then(async (result) => {
+        const comparePass = await bcrypt.compare(password, result.password);
+        if (comparePass == true) {
+            res.status(200).json({
+                message: "Login Success!",
+                status: "login",
+                data: result
+            })
+        } else {
+            res.status(404).json({
+                message: "Email dan Password Tidak Sesuai!",
+                data: null
+            })
+        }
     }).catch(err => {
         next(err);
     })

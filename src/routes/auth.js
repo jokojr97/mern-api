@@ -21,7 +21,7 @@ router.post('/register', [
 
 // [POST] : /v1/auth/login
 router.post('/login', [
-    body('email').isEmail().withMessage("Format Email Tidak Sesuai"),
+    body('email').notEmpty().withMessage("email tidak boleh kosong").isEmail().withMessage("Format Email Tidak Sesuai"),
     body('password').isLength({ min: 5 }).withMessage("Password tidak sesuai minimal 5 karakter")],
     authController.login);
 
